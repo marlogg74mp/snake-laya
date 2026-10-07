@@ -1,0 +1,8 @@
+20x20 v11w+shield4         | avg score  18.4 | avg steps  168 | survived  23% | drone deaths  72% | other deaths   5% | vetoes  0.2% | no safe move 299 | 650s
+20x20 v11w+shieldteacher   | avg score  23.1 | avg steps  257 | survived  75% | drone deaths  24% | other deaths   1% | vetoes  3.1% | no safe move 403 | 1144s
+20x20 v13d+shield4         | avg score  15.8 | avg steps  174 | survived  26% | drone deaths  71% | other deaths   3% | vetoes  0.1% | no safe move 293 | 533s
+20x20 v13d+shieldteacher   | avg score  21.0 | avg steps  259 | survived  75% | drone deaths  25% | other deaths   0% | vetoes  2.8% | no safe move 449 | 695s
+30x30 v11w+shield4         | avg score  10.8 | avg steps  154 | survived  22% | drone deaths  76% | other deaths   2% | vetoes  0.1% | no safe move 311 | 372s
+30x30 v11w+shieldteacher   | avg score  15.9 | avg steps  280 | survived  84% | drone deaths  16% | other deaths   0% | vetoes  3.5% | no safe move 363 | 848s
+30x30 v13d+shield4         | avg score  10.7 | avg steps  163 | survived  23% | drone deaths  75% | other deaths   2% | vetoes  0.1% | no safe move 305 | 421s
+30x30 v13d+shieldteacher   | avg score  15.5 | avg steps  274 | survived  80% | drone deaths  20% | other deaths   0% | vetoes  3.3% | no safe move 377 | 830s

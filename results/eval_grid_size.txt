@@ -1,0 +1,6 @@
+15x15 model    | survived 300:  10% | drone deaths:  75% | other deaths:  15% | avg steps   74 | avg score   3.5 | inputs over 448 tokens: 0.0% | 139s
+15x15 teacher  | survived 300:  35% | drone deaths:  65% | other deaths:   0% | avg steps  207 | avg score  13.2 | 75s
+20x20 model    | survived 300:   0% | drone deaths: 100% | other deaths:   0% | avg steps   89 | avg score   5.1 | inputs over 448 tokens: 0.0% | 185s
+20x20 teacher  | survived 300:  38% | drone deaths:  62% | other deaths:   0% | avg steps  199 | avg score  11.5 | 87s
+25x25 model    | survived 300:  10% | drone deaths:  90% | other deaths:   0% | avg steps  107 | avg score   4.9 | inputs over 448 tokens: 0.1% | 200s
+25x25 teacher  | survived 300:  57% | drone deaths:  42% | other deaths:   0% | avg steps  267 | avg score  13.2 | 114s

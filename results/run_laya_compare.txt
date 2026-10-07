@@ -1,0 +1,14 @@
+===== 13:23:07 laya zero-shot =====
+imitation dodge     n=  170 accuracy  37.1% | picked the plain A* move: 36%
+laya-zeroshot | survived 300:  52% | drone deaths:  48% | other deaths:   0% | avg steps  165 | avg score   0.2 | 473s
+===== 13:32:22 laya fine-tune =====
+===== 15:14:47 laya fine-tuned eval =====
+imitation dodge     n=  170 accuracy  67.6% | picked the plain A* move: 28%
+laya_convai_snake | survived 300:  20% | drone deaths:  80% | other deaths:   0% | avg steps  131 | avg score   6.0 | 371s
+===== 15:22:32 control train =====
+==> Epoch 1 Completed | Train Loss: 0.5612 | Eval Loss: 0.4307 | Accuracy: 84.05%
+[DONE] Training complete in 1666.9s! Final Accuracy: 84.05%
+===== 15:52:57 control eval =====
+imitation dodge     n=  170 accuracy  54.1% | picked the plain A* move: 39%
+model        | survived 300:  12% | drone deaths:  88% | other deaths:   0% | avg steps  116 | avg score   3.6 | 233s
+===== 15:58:23 ALL DONE =====

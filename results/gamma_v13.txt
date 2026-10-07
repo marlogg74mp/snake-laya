@@ -1,0 +1,8 @@
+20x20 greedy         | avg score 24.38 | avg steps  244 | 21s
+20x20 route g=0.9    | avg score 24.65 | avg steps  242 | 21s
+20x20 route g=0.95   | avg score 25.19 | avg steps  246 | 21s
+20x20 route g=0.98   | avg score 24.82 | avg steps  244 | 22s
+30x30 greedy         | avg score 17.80 | avg steps  261 | 29s
+30x30 route g=0.9    | avg score 16.90 | avg steps  255 | 31s
+30x30 route g=0.95   | avg score 16.99 | avg steps  252 | 30s
+30x30 route g=0.98   | avg score 17.29 | avg steps  255 | 31s

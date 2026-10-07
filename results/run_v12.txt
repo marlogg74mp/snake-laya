@@ -1,0 +1,14 @@
+===== 21:21:49 dataset =====
+V12: 80000 samples in 82s | {'episodes': 388, 'dodges': 4170, 'memory_moves': 739, 'not_nearest': 8279, 'deaths': 100, 'score': 5992}
+===== 21:23:12 train =====
+==> Epoch 1 Completed | Train Loss: 0.3994 | Eval Loss: 0.3180 | Accuracy: 87.85%
+==> Epoch 2 Completed | Train Loss: 0.2443 | Eval Loss: 0.2709 | Accuracy: 90.10%
+[DONE] Training complete in 2696.8s! Final Accuracy: 90.10%
+===== 22:08:44 eval =====
+20x20 v11w     | avg score  16.2 | avg steps  149 | survived  25% | drone deaths  62% | other deaths  12% | eaten: golden  21% apple  54% immortal  12% shrink  12% | 268s
+20x20 v12      | avg score  14.9 | avg steps  159 | survived  28% | drone deaths  62% | other deaths  10% | eaten: golden  23% apple  49% immortal  14% shrink  14% | 289s
+20x20 teacher  | avg score  21.9 | avg steps  235 | survived  62% | drone deaths  35% | other deaths   2% | eaten: golden  16% apple  59% immortal  12% shrink  13% | 95s
+30x30 v11w     | avg score  10.2 | avg steps  148 | survived  20% | drone deaths  75% | other deaths   5% | eaten: golden  23% apple  57% immortal  10% shrink  10% | 266s
+30x30 v12      | avg score   9.7 | avg steps  153 | survived  28% | drone deaths  65% | other deaths   8% | eaten: golden  23% apple  56% immortal  11% shrink  10% | 277s
+30x30 teacher  | avg score  15.7 | avg steps  239 | survived  60% | drone deaths  40% | other deaths   0% | eaten: golden  19% apple  57% immortal  13% shrink  11% | 143s
+===== 22:31:21 ALL DONE =====

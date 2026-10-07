@@ -1,0 +1,23 @@
+===== 23:50:31 dataset =====
+V13: 80000 samples in 77s | {'episodes': 398, 'dodges': 4106, 'memory_moves': 749, 'deaths': 110, 'score': 6247}
+===== 23:51:49 train v13 =====
+==> Epoch 1 Completed | Train Loss: 0.3010 | Eval Loss: 0.2595 | Accuracy: 90.46%
+==> Epoch 2 Completed | Train Loss: 0.1925 | Eval Loss: 0.1984 | Accuracy: 92.75%
+[DONE] Training complete in 2569.6s! Final Accuracy: 92.75%
+===== 00:35:14 dagger =====
+[3/3] dagger samples 45187 (dodges 1729)
+===== 00:43:08 train v13d =====
+==> Epoch 1 Completed | Train Loss: 0.2084 | Eval Loss: 0.2067 | Accuracy: 92.26%
+[DONE] Training complete in 1933.9s! Final Accuracy: 92.26%
+===== 01:16:27 eval =====
+20x20 v11w     | avg score  15.8 | avg steps  145 | survived  17% | drone deaths  70% | other deaths  13% | eaten: golden  20% apple  58% immortal  11% shrink  11% | 372s
+20x20 v13      | avg score  14.4 | avg steps  138 | survived  17% | drone deaths  71% | other deaths  12% | eaten: golden  21% apple  56% immortal  10% shrink  13% | 306s
+20x20 v13d     | avg score  15.2 | avg steps  163 | survived  23% | drone deaths  69% | other deaths   8% | eaten: golden  19% apple  57% immortal  11% shrink  13% | 360s
+20x20 greedy   | avg score  22.1 | avg steps  236 | survived  55% | drone deaths  44% | other deaths   1% | eaten: golden  19% apple  58% immortal  11% shrink  12% | 148s
+20x20 route    | avg score  24.7 | avg steps  242 | survived  64% | drone deaths  35% | other deaths   1% | eaten: golden  19% apple  58% immortal  11% shrink  12% | 147s
+30x30 v11w     | avg score   9.6 | avg steps  137 | survived  18% | drone deaths  76% | other deaths   6% | eaten: golden  21% apple  59% immortal  10% shrink  10% | 304s
+30x30 v13      | avg score   9.7 | avg steps  145 | survived  16% | drone deaths  79% | other deaths   5% | eaten: golden  22% apple  56% immortal  12% shrink  10% | 321s
+30x30 v13d     | avg score  10.1 | avg steps  147 | survived  19% | drone deaths  76% | other deaths   5% | eaten: golden  25% apple  54% immortal  12% shrink  10% | 328s
+30x30 greedy   | avg score  16.2 | avg steps  252 | survived  60% | drone deaths  40% | other deaths   0% | eaten: golden  20% apple  57% immortal  12% shrink  12% | 222s
+30x30 route    | avg score  15.8 | avg steps  236 | survived  50% | drone deaths  50% | other deaths   0% | eaten: golden  21% apple  57% immortal  10% shrink  11% | 230s
+===== 02:02:18 ALL DONE =====

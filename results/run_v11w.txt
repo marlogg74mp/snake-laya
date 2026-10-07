@@ -1,0 +1,20 @@
+===== 19:55:44 dataset =====
+V11w: 70000 samples in 57s | {'episodes': 341, 'dodges': 4047, 'memory_moves': 166, 'deaths': 78}
+===== 19:56:42 train =====
+==> Epoch 1 Completed | Train Loss: 0.2976 | Eval Loss: 0.2493 | Accuracy: 91.47%
+==> Epoch 2 Completed | Train Loss: 0.2042 | Eval Loss: 0.1999 | Accuracy: 92.70%
+[DONE] Training complete in 2104.2s! Final Accuracy: 92.70%
+===== 20:32:30 eval =====
+15x15 v10      | survived 300:  10% | drone deaths  82% | other deaths   8% | avg steps   86 | avg score   4.8 | inputs over 448 tokens 0.0% | 155s
+15x15 v11w     | survived 300:  20% | drone deaths  75% | other deaths   5% | avg steps  161 | avg score   9.2 | inputs over 448 tokens 0.0% | 291s
+15x15 teacher  | survived 300:  50% | drone deaths  50% | other deaths   0% | avg steps  234 | avg score  14.0 | 70s
+20x20 v10      | survived 300:  18% | drone deaths  82% | other deaths   0% | avg steps  124 | avg score   5.5 | inputs over 448 tokens 0.1% | 231s
+20x20 v11w     | survived 300:  25% | drone deaths  68% | other deaths   8% | avg steps  167 | avg score   7.8 | inputs over 448 tokens 0.0% | 302s
+20x20 teacher  | survived 300:  50% | drone deaths  50% | other deaths   0% | avg steps  224 | avg score  10.7 | 75s
+25x25 v10      | survived 300:   2% | drone deaths  95% | other deaths   2% | avg steps   61 | avg score   2.6 | inputs over 448 tokens 14.3% | 122s
+25x25 v11w     | survived 300:  12% | drone deaths  85% | other deaths   2% | avg steps  115 | avg score   4.6 | inputs over 448 tokens 0.6% | 221s
+25x25 teacher  | survived 300:  25% | drone deaths  75% | other deaths   0% | avg steps  201 | avg score   8.6 | 102s
+50x50 v10      | survived 300:  30% | drone deaths  70% | other deaths   0% | avg steps  142 | avg score   1.6 | inputs over 448 tokens 100.0% | 268s
+50x50 v11w     | survived 300:  35% | drone deaths  62% | other deaths   2% | avg steps  177 | avg score   2.4 | inputs over 448 tokens 0.5% | 321s
+50x50 teacher  | survived 300:  78% | drone deaths  22% | other deaths   0% | avg steps  280 | avg score   4.5 | 217s
+===== 21:12:23 ALL DONE =====

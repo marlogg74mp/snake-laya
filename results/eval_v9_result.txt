@@ -1,0 +1,4 @@
+imitation dodge     n=  170 accuracy  54.1% | picked the plain A* move: 43%
+model        | survived 300:  15% | drone deaths:  82% | other deaths:   2% | avg steps  117 | avg score   5.4 | 206s
+teacher      | survived 300:  70% | drone deaths:  30% | other deaths:   0% | avg steps  268 | avg score  12.3 | 60s
+laya_snake_weights_v8          | survived 300:    0% | drone deaths:  100% | wall/body:    0% | avg steps:    43 | avg score:  2.8 | 41s
