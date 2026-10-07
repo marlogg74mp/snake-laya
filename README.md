@@ -1,37 +1,35 @@
-# Stage 4: Human-vs-AI Duel & Convai Laya 421M Tournament
+# Stage 5: Egocentric Window Vision (v11w) & Strategic Routing
 
 ## Overview
-This stage builds a symmetric 3D duel arena (human player vs Laya) and tests the official 421M parameter `Convai Laya` (ModernBERT-large) in zero-shot and fine-tuned modes against our 149M baseline.
+This stage implements an **egocentric 11x11 sliding window** (`v11w`) to eliminate board-size dependency. It also explores multi-apple strategic planning (`v12`, `v13`) and metrics decomposition.
 
 ## Key Files in this Branch
-* `versus_server.py` — Local HTTP server for the duel arena (port 9700).
-* `VERSUS_RULES.md` — Complete rules of the duel mode (fog of war, scores, kills).
-* `laya_convai_snake.py` — Training and inference pipeline for Convai Laya 421M.
-* `run_laya_compare.py` / `versus/tournament.mjs` — Head-to-head tournament runner (20 matches across 10 maps).
-* `export_laya421_web.py` — Web export for Laya 421M.
-* `versus/` — 3D duel arena web client (chase camera, mobile touch controls, fog of war).
+* `build_dataset_v11w.py` / `run_v11w.py` / `eval_window.py` — 11x11 window centered on snake's head with relative offsets.
+* `build_dataset_v12.py` / `run_v12.py` / `eval_v12.py` — Valued apples (+1 regular, +3 golden, +2 star).
+* `teacher_route.py` / `build_dataset_v13.py` / `run_v13.py` / `eval_v13.py` — Multi-apple routing teacher.
+* `versus/model_v11w/` — In-browser INT4 ONNX model for `v11w`.
 
 ## Step-by-Step Execution Guide
 
-### 1. Launch Duel Arena
+### 1. Train Egocentric Window Model (v11w)
 ```bash
-python versus_server.py
+python run_v11w.py
 ```
-Open `http://127.0.0.1:9700/` to duel against the AI in real time.
+Generates egocentric dataset, trains ModernBERT, and exports INT4 web weights to `versus/model_v11w/`.
 
-### 2. Fine-tune Convai Laya 421M
+### 2. Verify Grid-Size Generalization
 ```bash
-python laya_convai_snake.py train
+python eval_window.py
 ```
-Fine-tunes the 421M parameter model using its native `[MASK]` classification head.
+Tests on 15x15, 20x20, 25x25, and 50x50 grids: 0% boundary crashes across all board sizes!
 
-### 3. Run AI-vs-AI Tournament
+### 3. Experiments with Valued Apples (v12 / v13)
 ```bash
-python run_laya_compare.py
+python run_v12.py
+python run_v13.py
 ```
-Plays 20 tournament matches between 149M v10 and Laya 421M. Result: 16:4 in favor of 421M.
 
-## Key Insights
-* **Zero-Shot Cowardice:** Untrained Laya 421M with prompt *"pick safest move"* lived the longest (165 steps) but scored only 0.2 points — running safely in circles!
-* **Multiplayer Zero-Shot Adaptation:** The opponent's snake body was passed as a static wall to the neural net, allowing multiplayer duels without any multiplayer retraining.
-* **Next Stage:** Switch to `stage-5-window-memory` to implement egocentric window vision and multi-apple routing.
+## Key Insights & Failure Modes (Lesson 5)
+* **The Optimization Blind Alley:** Versions v12 and v13 failed to improve performance over v11w.
+* **Metric Decomposition:** Decomposing score showed points-per-step were already higher than the teacher (0.109 vs 0.094)! The real bottleneck was that 70% of deaths were drone strikes at step ~145. Optimizing food collection was polishing something that was not broken.
+* **Next Stage:** Switch to `main` for the ultimate breakthrough: the hybrid Safety Shield.

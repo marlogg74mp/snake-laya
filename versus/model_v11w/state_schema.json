@@ -1,0 +1,1 @@
+{"keys": ["current_dir", "recent_actions", "food_dir", "danger_UP", "danger_DOWN", "danger_LEFT", "danger_RIGHT", "food_rel", "edges", "snake_len", "immortal_steps", "body", "walls", "ghost_walls", "drones", "drone_path", "fog_of_war", "memory_food", "explored"]}
