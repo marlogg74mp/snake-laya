@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Laya Snake 3D</title>
+  <meta name="description" content="ModernBERT-классификатор Laya играет в змейку на неоновой 3D-арене: порталы, туман войны, патрульные дроны." />
+  <script>
+    // Относительные пути ломаются на /3d без слэша — добавляем его.
+    if (!location.pathname.endsWith("/") && !/\.[a-z0-9]+$/i.test(location.pathname)) location.replace(location.pathname + "/" + location.search + location.hash);
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2305060f'/%3E%3Cpath d='M7 22c4 0 4-12 9-12s5 12 9 12' stroke='%233dffa8' stroke-width='3.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body data-effect="">
+  <div id="stage"></div>
+  <div id="vignette"></div>
+
+  <header class="top">
+    <div class="brand">
+      <div class="logo">LAYA<span>//</span>SNAKE<em>3D</em></div>
+      <div class="tagline">ModernBERT-base · 149M параметров · играет сама</div>
+    </div>
+    <div class="stats">
+      <div class="stat" id="scoreCard"><b id="scoreVal">0</b><span>Счёт</span></div>
+      <div class="stat"><b id="lenVal">3</b><span>Длина</span></div>
+      <div class="stat"><b id="bestVal">0</b><span>Рекорд</span></div>
+      <div class="stat small"><b id="stepVal">0</b><span>Шаг</span></div>
+      <div class="stat small bad"><b id="crashVal">0</b><span>Аварии</span></div>
+    </div>
+  </header>
+
+  <div id="banner" class="banner" data-tone="ok"><i></i><span id="bannerText">СИМУЛЯЦИЯ АКТИВНА</span></div>
+  <div id="immortalBar" class="immortal" hidden title="Бессмертие: дроны, собственное тело и яд не убивают; стены и граница — убивают">
+    <span>БЕССМЕРТИЕ</span><div class="ibar"><i id="immortalFill"></i></div><b id="immortalVal">50</b>
+  </div>
+
+  <aside class="panel left" id="brainPanel">
+    <button class="panel-toggle" aria-label="Свернуть панель">Мозг</button>
+    <div class="panel-body">
+      <h3>Кто управляет змейкой</h3>
+      <div class="seg three">
+        <button data-provider="server" title="Нейросеть считает на видеокарте компьютера, где запущен web_server.py">Нейросеть<small>на сервере</small></button>
+        <button data-provider="onnx" title="Та же нейросеть Laya, сжатая до 71 МБ, считает прямо в этом браузере (ONNX) — сервер не нужен">Нейросеть<small>в браузере</small></button>
+        <button data-provider="bfs" class="active" title="Обычный алгоритм поиска пути (BFS), без нейросети — для сравнения">Алгоритм<small>без ИИ</small></button>
+      </div>
+      <div id="serverOpts" class="row" hidden>
+        <label for="serverModel">Нейросеть</label>
+        <select id="serverModel">
+          <option value="laya">Laya — наша модель (видеокарта)</option>
+          <option value="laya_convai">Laya 421M — настоящая Laya, дообученная (видеокарта)</option>
+          <option value="jev">Jev-1.13 — облачная LLM (платно, ~1 с)</option>
+        </select>
+      </div>
+      <div id="providerStatus" class="status" data-tone="ok">работает полностью в браузере</div>
+
+      <div class="decision">
+        <div class="arrow" id="actionArrow">→</div>
+        <div class="dmeta">
+          <div class="dlabel">Ход</div>
+          <div class="dval" id="actionText">ВПРАВО</div>
+          <div class="engine" id="engineName">—</div>
+          <div class="flags"><span id="flagMask" class="flag" hidden>маска</span><span id="flagFallback" class="flag warn" hidden>фолбэк BFS</span></div>
+        </div>
+        <div class="conf"><b id="confVal">—</b><span>уверенность</span></div>
+      </div>
+
+      <div class="probs">
+        <div class="prob" id="prob-UP"><span>↑</span><div class="track"><i id="bar-UP"></i></div><em id="pct-UP">0%</em></div>
+        <div class="prob" id="prob-DOWN"><span>↓</span><div class="track"><i id="bar-DOWN"></i></div><em id="pct-DOWN">0%</em></div>
+        <div class="prob" id="prob-LEFT"><span>←</span><div class="track"><i id="bar-LEFT"></i></div><em id="pct-LEFT">0%</em></div>
+        <div class="prob" id="prob-RIGHT"><span>→</span><div class="track"><i id="bar-RIGHT"></i></div><em id="pct-RIGHT">0%</em></div>
+      </div>
+
+      <div class="sensors">
+        <div class="radar" title="Сенсоры опасности danger_* — то, что видит модель">
+          <div></div><div id="radar-UP" data-state="safe">↑</div><div></div>
+          <div id="radar-LEFT" data-state="safe">←</div><div class="me"></div><div id="radar-RIGHT" data-state="safe">→</div>
+          <div></div><div id="radar-DOWN" data-state="safe">↓</div><div></div>
+        </div>
+        <div class="lat">
+          <div class="kv"><span title="Сколько думала модель или алгоритм">Расчёт хода</span><b id="latVal">—</b></div>
+          <div class="kv"><span title="Расчёт + передача по сети и подготовка данных">С учётом сети</span><b id="rttVal">—</b></div>
+          <canvas id="spark" width="160" height="34"></canvas>
+        </div>
+      </div>
+
+      <details id="stateBox">
+        <summary>Что видит модель (JSON)</summary>
+        <pre id="stateJson">—</pre>
+      </details>
+    </div>
+  </aside>
+
+  <aside class="panel right" id="controlPanel">
+    <button class="panel-toggle" aria-label="Свернуть панель">Пульт</button>
+    <div class="panel-body">
+      <div class="btnrow">
+        <button id="btnPlay">Пауза</button>
+        <button id="btnStep" title="N">Шаг</button>
+        <button id="btnReset" class="danger" title="R">Заново</button>
+      </div>
+
+      <h3>Скорость <span class="hint" id="tickVal">120 мс/шаг</span></h3>
+      <div class="row slider">
+        <input id="speed" type="range" min="0.25" max="3" step="0.25" value="1" />
+        <b id="speedVal">×1</b>
+      </div>
+
+      <h3>Камера</h3>
+      <div class="seg three">
+        <button data-cam="orbit" class="active" title="1">Орбита</button>
+        <button data-cam="top" title="2">Сверху</button>
+        <button data-cam="chase" title="3">Погоня</button>
+      </div>
+      <label class="chk"><input type="checkbox" id="autorotChk" checked /><span>Автовращение</span></label>
+
+      <h3>Арена</h3>
+      <div class="toggles">
+        <label class="chk"><input type="checkbox" id="wallsChk" checked /><span>Стены</span></label>
+        <label class="chk"><input type="checkbox" id="portalsChk" checked /><span>Порталы</span></label>
+        <label class="chk"><input type="checkbox" id="patrolsChk" checked /><span>Дроны</span></label>
+        <label class="chk"><input type="checkbox" id="fogChk" /><span>Туман войны</span></label>
+      </div>
+
+      <h3>Поведение</h3>
+      <div class="toggles">
+        <label class="chk" title="Отбрасывает ходы модели, ведущие прямо в стену/тело/дрон (как в старом UI)"><input type="checkbox" id="maskChk" checked /><span>Маска безопасности</span></label>
+        <label class="chk"><input type="checkbox" id="rebootChk" checked /><span>Автоперезапуск</span></label>
+        <label class="chk" id="telemetryRow" hidden title="POST /record_crash → crashes.jsonl на сервере"><input type="checkbox" id="telemetryChk" /><span>Логировать аварии</span></label>
+      </div>
+
+      <h3>Графика <span class="hint" id="fpsVal"></span></h3>
+      <div class="seg two">
+        <button data-quality="high" class="active">Высокая</button>
+        <button data-quality="low">Лёгкая</button>
+      </div>
+      <label class="chk"><input type="checkbox" id="bloomChk" checked /><span>Свечение (bloom)</span></label>
+    </div>
+  </aside>
+
+  <footer class="legend">
+    <span><i style="--c:#ff3358"></i>Яблоко +1</span>
+    <span><i style="--c:#ffc933"></i>Золотое +3</span>
+    <span><i style="--c:#4df0ff"></i>Магическое +2, длина −2</span>
+    <span><i style="--c:#ffe14d"></i>Турбо ×2</span>
+    <span><i style="--c:#a8f0ff"></i>Заморозка ×0.5</span>
+    <span><i style="--c:#b44dff"></i>Яд −5</span>
+    <span><i class="star" style="--c:#fff27a"></i>Бессмертие +2, 50 ходов</span>
+    <span><i style="--c:#ff2a6d" class="sq"></i>Стена</span>
+    <span><i style="--c:#7fe9ff" class="sq ghost"></i>Призрачная стена</span>
+    <span><i style="--c:#00e5ff"></i>Портал</span>
+    <span><i style="--c:#ff3355" class="sq"></i>Дрон</span>
+    <span class="keys">клик — еда · Shift+клик — тип · пробел — пауза · 1/2/3 — камера · H — скрыть интерфейс</span>
+  </footer>
+
+  <button id="hudToggle" title="Скрыть/показать интерфейс (H)">HUD</button>
+  <div id="toast"></div>
+  <div id="fatal" hidden>
+    <b>Не удалось запустить WebGL.</b>
+    <span>Попробуйте другой браузер или включите аппаратное ускорение.</span>
+  </div>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>

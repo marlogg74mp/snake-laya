@@ -1,50 +1,38 @@
-# Stage 1: Game State as JSON & ModernBERT Imitation Learning
+# Stage 2: Dynamic Threats — Drones, Phase Walls & 3D Web Arena
 
 ## Overview
-Can a transformer text encoder play Snake? In this initial stage, the 20x20 Snake environment is serialized into a textual JSON document (~340 tokens). We train a `ModernBERT-base` (149M parameters) encoder as a 4-class classifier (`UP`, `DOWN`, `LEFT`, `RIGHT`) using imitation learning (Behavior Cloning) from an algorithmic A* teacher.
-
-```
-State: {"current_dir": "RIGHT", "food_dir": "DOWN_RIGHT", "head_pos": [9, 8], ...}
-Output: Classification probabilities -> UP (0.02), DOWN (0.01), LEFT (0.01), RIGHT (0.96)
-```
+This stage introduces complex dynamic hazards: patrolling drones, periodic phase walls (permeable every N ticks), portals, and temporary immortality apples. It also introduces a real-time 3D web arena built with Three.js.
 
 ## Key Files in this Branch
-* `snake_env.py` — Core 20x20 Snake environment simulation.
-* `a_star_solver.py` — Algorithmic A* teacher that calculates the shortest path to food.
-* `build_dataset_v7_patrols.py` — Generates pairs of `(game_state_json -> expert_move)`.
-* `train_v7_full_context.py` — PyTorch training script fine-tuning ModernBERT-base.
-* `eval_laya.py` — Evaluates model classification accuracy on hold-out test sets.
-* `web_server.py` — FastAPI model server (port 9500) serving live move predictions.
-* `EXPERIMENT_LOG.md` — Detailed research logs from early experiments.
+* `build_dataset_v8_patrol_body.py` — Adds snake body segments to state JSON (fixing body blindness).
+* `build_dataset_v9.py` — Generates 60,000 steps with time-space look-ahead A* teacher dodging drones.
+* `eval_v9.py` / `eval_patrol_survival.py` — Evaluates survival against drone attacks.
+* `RULES_V9.md` — Complete formal rules of the v9 game mechanics.
+* `web3d/` — Full 3D web client (Three.js, cyberpunk shaders, real-time WebSocket).
 
 ## Step-by-Step Execution Guide
 
-### 1. Generate Dataset
+### 1. Generate Dataset with Drone Trajectories
 ```bash
-python build_dataset_v7_patrols.py
+python build_dataset_v9.py 60000
 ```
-Generates `dataset_v7_patrols.jsonl`.
+Outputs `dataset_v9.jsonl` with drone flight paths and snake body coordinates.
 
-### 2. Train ModernBERT-base
+### 2. Fine-tune ModernBERT (v9)
 ```bash
-python train_v7_full_context.py --dataset dataset_v7_patrols.jsonl --out laya_snake_weights --epochs 3 --batch-size 16
+python train_v7_full_context.py --dataset dataset_v9.jsonl --out laya_snake_weights_v9 --epochs 3
 ```
-Trained weights will be saved to `laya_snake_weights/` along with `state_schema.json`.
 
-### 3. Evaluate Offline Accuracy
+### 3. Evaluate Drone Survival
 ```bash
-python eval_laya.py --weights laya_snake_weights
+python eval_v9.py
 ```
-Validation accuracy: **~98.2%**.
 
-### 4. Serve Model for Game Interface
-```bash
-python web_server.py
-```
-Listens on `http://127.0.0.1:9500/predict_action`.
+### 4. Play in 3D Web Arena
+1. Start server: `python web_server.py`
+2. Open `web3d/index.html` in your browser.
 
-## Key Insights & Failure Modes (Lesson 1)
-* **The Loop in the Corner:** Despite 98% accuracy on static test data, in the live game the snake looped indefinitely near the wall.
-* **Root Cause:** Key order mismatch in JSON serialization between JavaScript and Python, and `"NONE"` vs `"UNKNOWN"` string representations.
-* **Fix:** Introduced `state_schema.json` to strictly enforce byte-identical serialization across Python and JavaScript.
-* **Next Stage:** Switch to `stage-2-drones-v9` to test the model against dynamic obstacles (patrol drones, phase walls, portals).
+## Key Insights & Failure Modes (Lesson 2)
+* **The Body Blindness Trap:** Drones collided into the snake's body/tail 100% of the time because body coordinates were originally omitted from the JSON.
+* **Imbalance Masking:** Overall test accuracy was 91.7%, but drone evasion accuracy was only 26%. Adding full body coordinates and 4x oversampling of evasion scenarios boosted evasions to 54%.
+* **Next Stage:** Switch to `stage-3-dagger-onnx` to tackle cascading errors (covariate shift) and browser deployment.
