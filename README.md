@@ -11,7 +11,7 @@ Question: What is the next safe move avoiding patrols and walls towards food?
 Choices: UP, DOWN, LEFT, RIGHT                         ->  classifier  ->  {"UP": 0.02, "RIGHT": 0.95, ...}
 ```
 
-**Play in the browser:** `https://<your-user>.github.io/<repo>/` (duel) and `.../solo/` (single player).
+**Play in the browser:** [https://marlogg74mp.github.io/snake-laya/](https://marlogg74mp.github.io/snake-laya/) (duel) and [https://marlogg74mp.github.io/snake-laya/solo/](https://marlogg74mp.github.io/snake-laya/solo/) (single player).
 No server: the model (~70 MB, int4) is downloaded once and runs on your GPU (WebGPU) or CPU (WASM).
 
 ## What is inside
