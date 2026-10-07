@@ -1,0 +1,537 @@
+{
+  "summary": {
+    "matches": 20,
+    "wins": {
+      "v10": 4,
+      "laya421": 16,
+      "draw": 0
+    },
+    "v10": {
+      "avgScore": 21.7,
+      "avgApples": 32.05,
+      "avgDeaths": null,
+      "kills": 2,
+      "fallbacks": 0,
+      "deathsByReason": {
+        "drone": 100,
+        "wall": 1,
+        "border": 4,
+        "self": 6,
+        "opponent": 4,
+        "head-on": 4
+      }
+    },
+    "laya421": {
+      "avgScore": 27.2,
+      "avgApples": 34.8,
+      "avgDeaths": null,
+      "kills": 3,
+      "fallbacks": 0,
+      "deathsByReason": {
+        "drone": 83,
+        "self": 7,
+        "opponent": 2,
+        "border": 5,
+        "head-on": 3,
+        "wall": 1
+      }
+    }
+  },
+  "results": [
+    {
+      "seed": 70000,
+      "v10": {
+        "score": 14,
+        "kills": 0,
+        "deaths": {
+          "drone": 7,
+          "wall": 1
+        },
+        "apples": 31,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "laya421": {
+        "score": 31,
+        "kills": 0,
+        "deaths": {
+          "drone": 5
+        },
+        "apples": 39,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70000,
+      "laya421": {
+        "score": 14,
+        "kills": 0,
+        "deaths": {
+          "drone": 6
+        },
+        "apples": 23,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "v10": {
+        "score": 32,
+        "kills": 0,
+        "deaths": {
+          "drone": 5
+        },
+        "apples": 40,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70001,
+      "v10": {
+        "score": 29,
+        "kills": 0,
+        "deaths": {
+          "drone": 4
+        },
+        "apples": 35,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "laya421": {
+        "score": 33,
+        "kills": 0,
+        "deaths": {
+          "drone": 3,
+          "self": 1
+        },
+        "apples": 40,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70001,
+      "laya421": {
+        "score": 32,
+        "kills": 0,
+        "deaths": {
+          "drone": 3,
+          "self": 1
+        },
+        "apples": 39,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "v10": {
+        "score": 13,
+        "kills": 0,
+        "deaths": {
+          "drone": 7,
+          "border": 1
+        },
+        "apples": 29,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70002,
+      "v10": {
+        "score": 19,
+        "kills": 0,
+        "deaths": {
+          "drone": 6
+        },
+        "apples": 34,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "laya421": {
+        "score": 33,
+        "kills": 0,
+        "deaths": {
+          "drone": 3,
+          "self": 1
+        },
+        "apples": 41,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70002,
+      "laya421": {
+        "score": 22,
+        "kills": 0,
+        "deaths": {
+          "opponent": 1,
+          "drone": 5
+        },
+        "apples": 30,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "v10": {
+        "score": 47,
+        "kills": 1,
+        "deaths": {
+          "drone": 4,
+          "self": 1
+        },
+        "apples": 44,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70003,
+      "v10": {
+        "score": 26,
+        "kills": 0,
+        "deaths": {
+          "drone": 3,
+          "border": 1
+        },
+        "apples": 30,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "laya421": {
+        "score": 33,
+        "kills": 0,
+        "deaths": {
+          "drone": 3,
+          "self": 1
+        },
+        "apples": 38,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70003,
+      "laya421": {
+        "score": 25,
+        "kills": 0,
+        "deaths": {
+          "drone": 4
+        },
+        "apples": 31,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "v10": {
+        "score": 17,
+        "kills": 0,
+        "deaths": {
+          "drone": 6
+        },
+        "apples": 27,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70004,
+      "v10": {
+        "score": 20,
+        "kills": 0,
+        "deaths": {
+          "drone": 1,
+          "self": 1,
+          "border": 1
+        },
+        "apples": 25,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "laya421": {
+        "score": 21,
+        "kills": 0,
+        "deaths": {
+          "drone": 4
+        },
+        "apples": 25,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70004,
+      "laya421": {
+        "score": 24,
+        "kills": 0,
+        "deaths": {
+          "drone": 5,
+          "border": 1
+        },
+        "apples": 35,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "v10": {
+        "score": 25,
+        "kills": 0,
+        "deaths": {
+          "drone": 5,
+          "opponent": 1
+        },
+        "apples": 37,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70005,
+      "v10": {
+        "score": 14,
+        "kills": 0,
+        "deaths": {
+          "drone": 5,
+          "opponent": 2
+        },
+        "apples": 30,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "laya421": {
+        "score": 37,
+        "kills": 2,
+        "deaths": {
+          "drone": 4,
+          "border": 1
+        },
+        "apples": 32,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70005,
+      "laya421": {
+        "score": 38,
+        "kills": 1,
+        "deaths": {
+          "drone": 4,
+          "border": 1
+        },
+        "apples": 41,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "v10": {
+        "score": 35,
+        "kills": 0,
+        "deaths": {
+          "self": 1,
+          "drone": 5,
+          "opponent": 1
+        },
+        "apples": 43,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70006,
+      "v10": {
+        "score": 19,
+        "kills": 0,
+        "deaths": {
+          "drone": 6
+        },
+        "apples": 31,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "laya421": {
+        "score": 11,
+        "kills": 0,
+        "deaths": {
+          "self": 1,
+          "drone": 7
+        },
+        "apples": 32,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70006,
+      "laya421": {
+        "score": 18,
+        "kills": 0,
+        "deaths": {
+          "drone": 6,
+          "head-on": 1
+        },
+        "apples": 35,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "v10": {
+        "score": 13,
+        "kills": 0,
+        "deaths": {
+          "drone": 5,
+          "head-on": 1
+        },
+        "apples": 28,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70007,
+      "v10": {
+        "score": 15,
+        "kills": 0,
+        "deaths": {
+          "border": 1,
+          "head-on": 2,
+          "drone": 4
+        },
+        "apples": 32,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "laya421": {
+        "score": 16,
+        "kills": 0,
+        "deaths": {
+          "head-on": 1,
+          "drone": 5
+        },
+        "apples": 30,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70007,
+      "laya421": {
+        "score": 33,
+        "kills": 0,
+        "deaths": {
+          "drone": 3,
+          "self": 1
+        },
+        "apples": 38,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "v10": {
+        "score": 19,
+        "kills": 0,
+        "deaths": {
+          "drone": 7
+        },
+        "apples": 29,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70008,
+      "v10": {
+        "score": 23,
+        "kills": 0,
+        "deaths": {
+          "drone": 5
+        },
+        "apples": 28,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "laya421": {
+        "score": 26,
+        "kills": 0,
+        "deaths": {
+          "self": 1,
+          "drone": 2,
+          "border": 1
+        },
+        "apples": 34,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70008,
+      "laya421": {
+        "score": 37,
+        "kills": 0,
+        "deaths": {
+          "drone": 4,
+          "head-on": 1
+        },
+        "apples": 41,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "v10": {
+        "score": 17,
+        "kills": 0,
+        "deaths": {
+          "drone": 4,
+          "self": 1,
+          "head-on": 1
+        },
+        "apples": 28,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70009,
+      "v10": {
+        "score": 21,
+        "kills": 1,
+        "deaths": {
+          "self": 1,
+          "drone": 6
+        },
+        "apples": 28,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "laya421": {
+        "score": 32,
+        "kills": 0,
+        "deaths": {
+          "drone": 2,
+          "wall": 1,
+          "opponent": 1
+        },
+        "apples": 37,
+        "side": "right",
+        "fallbacks": 0
+      }
+    },
+    {
+      "seed": 70009,
+      "laya421": {
+        "score": 28,
+        "kills": 0,
+        "deaths": {
+          "drone": 5,
+          "border": 1
+        },
+        "apples": 35,
+        "side": "left",
+        "fallbacks": 0
+      },
+      "v10": {
+        "score": 16,
+        "kills": 0,
+        "deaths": {
+          "drone": 5,
+          "self": 1
+        },
+        "apples": 32,
+        "side": "right",
+        "fallbacks": 0
+      }
+    }
+  ]
+}

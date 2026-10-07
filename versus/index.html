@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Snake Duel — человек против Laya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Orbitron:wght@600;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <header class="top">
+    <div class="side human">
+      <div class="who">ВЫ</div>
+      <div class="score" id="scoreHuman">0</div>
+      <div class="meta" id="metaHuman" title="⚔ убийства · ☠ смерти · ⟳ ходов до возрождения">⚔ 0 · ☠ 0</div>
+      <div class="imm" id="immHuman"><i></i></div>
+    </div>
+    <div class="center">
+      <div class="title">SNAKE DUEL</div>
+      <div class="timer" id="timer">1:30</div>
+      <div class="timebar"><i id="timebar"></i></div>
+    </div>
+    <div class="side ai">
+      <div class="who">LAYA</div>
+      <div class="score" id="scoreAi">0</div>
+      <div class="meta" id="metaAi" title="⚔ убийства · ☠ смерти · ⟳ ходов до возрождения">⚔ 0 · ☠ 0</div>
+      <div class="imm" id="immAi"><i></i></div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="arena-wrap">
+      <div class="arena"><canvas id="board"></canvas>
+        <button class="view-btn" id="viewBtn" title="Переключить 2D/3D">2D</button>
+        <button class="view-btn cam" id="camBtn" title="Камера: обзор → сверху → за змейкой (клавиша V)">📷</button>
+        <div class="overlay" id="overlay">
+          <div class="card" id="menuCard">
+            <h1>ЧЕЛОВЕК <span>vs</span> ИИ</h1>
+            <p class="lead">600 ходов. Одна арена. Кто наберёт больше очков — вы или нейросеть Laya?</p>
+            <ul class="rules">
+              <li><b class="c-apple">●</b> яблоко +1 · <b class="c-golden">●</b> золотое +3 · <b class="c-star">★</b> бессмертие +2 на 50 ходов</li>
+              <li>Врезался в соперника — погиб, сопернику <b>+5</b>. Лоб в лоб — гибнут оба.</li>
+              <li>Смерть: −3 очка, возрождение через 10 ходов.</li>
+              <li><b class="c-drone">●</b> дроны убивают касанием, <b class="c-wall">■</b> стены иногда становятся прозрачными <b class="c-ghost">⬚</b> для всех.</li>
+            </ul>
+            <div class="speeds" id="speeds">
+              <button data-speed="slow">ТРЕНИРОВКА<small>250 мс · 2:30</small></button>
+              <button data-speed="normal" class="active">НОРМА<small>150 мс · 1:30</small></button>
+              <button data-speed="fast">ТУРБО<small>100 мс · 1:00</small></button>
+            </div>
+            <div class="speeds brains" id="brains">
+              <button data-brain="server" class="active">v10 · СЕРВЕР<small>наша модель 149M · ~50 мс</small></button>
+              <button data-brain="onnx">v10 · БРАУЗЕР<small>71 МБ · без сервера</small></button>
+              <button data-brain="convai">LAYA 421M · СЕРВЕР<small>настоящая Laya, дообученная</small></button>
+              <button data-brain="onnx421">LAYA 421M · БРАУЗЕР<small>~230 МБ · без сервера</small></button>
+              <button data-brain="onnx_v11w">v11w · БРАУЗЕР<small>лучшая в паре со щитом · ~70 МБ</small></button>
+              <button data-brain="v11w">v11w · ОКНО<small>видит 11×11 вокруг себя · сервер</small></button>
+              <button data-brain="v12">v12 · ОКНО + ЦЕННОСТЬ<small>выбирает дорогие яблоки, помнит · сервер</small></button>
+            </div>
+            <div class="speeds shields" id="shields">
+              <button data-shield="on" class="active">ЩИТ ВКЛ<small>просчёт на ~20 ходов вперёд вето&shy;рует ходы в ловушку</small></button>
+              <button data-shield="off">ЩИТ ВЫКЛ<small>только нейросеть</small></button>
+            </div>
+            <label class="name">Ваше имя <input id="playerName" maxlength="16" placeholder="Игрок" autocomplete="nickname"></label>
+            <button class="go" id="startBtn">НАЧАТЬ МАТЧ</button>
+            <button class="go watch" id="watchBtn">СМОТРЕТЬ: v10 ПРОТИВ LAYA 421M</button>
+            <p class="hint">Управление: мышь (змейка ползёт к курсору) или стрелки / WASD · пробел — пауза · V — камера (обзор / сверху / за змейкой) · на телефоне свайп или кнопки</p>
+          </div>
+          <div class="card hidden" id="countCard"><div class="count" id="count">3</div></div>
+          <div class="card hidden" id="pauseCard"><h2>ПАУЗА</h2><p class="hint">Пробел — продолжить</p></div>
+          <div class="card hidden" id="endCard">
+            <h2 id="endTitle">ПОБЕДА</h2>
+            <div class="final"><span class="c-human" id="finalHuman">0</span> : <span class="c-ai" id="finalAi">0</span></div>
+            <div class="endstats" id="endStats"></div>
+            <div class="submit" id="submitRow"><button class="go small" id="submitBtn">Сохранить в рекордах</button></div>
+            <div class="board-list"><h3 id="leadersTitle">Рекорды</h3><ol id="leaders"></ol></div>
+            <button class="go" id="againBtn">ЕЩЁ РАЗ</button>
+          </div>
+        </div>
+      </div>
+      <div class="pad" id="pad">
+        <button data-dir="UP" aria-label="вверх">▲</button>
+        <button data-dir="LEFT" aria-label="влево">◀</button>
+        <button data-dir="DOWN" aria-label="вниз">▼</button>
+        <button data-dir="RIGHT" aria-label="вправо">▶</button>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <h3>Мозг Laya</h3>
+      <div class="brain">
+        <div class="move"><span id="aiArrow">·</span><b id="aiMove">—</b></div>
+        <div class="bars" id="aiBars"></div>
+        <div class="stat"><span>уверенность</span><b id="aiConf">—</b></div>
+        <div class="stat"><span>время ответа</span><b id="aiLat">—</b></div>
+        <div class="stat"><span>источник</span><b id="aiSrc">—</b></div>
+        <div class="stat"><span>щит</span><b id="aiVetoes">—</b></div>
+        <div class="shield-note" id="aiShield">—</div>
+      </div>
+      <h3>События</h3>
+      <ul class="feed" id="feed"></ul>
+    </aside>
+  </main>
+
+  <div class="rotate" id="rotateHint">
+    <div class="phone">📱</div>
+    <p>Поверните телефон горизонтально —<br>поле будет намного больше</p>
+    <button id="portraitBtn">Играть вертикально</button>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
