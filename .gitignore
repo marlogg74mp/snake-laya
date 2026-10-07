@@ -1,0 +1,14 @@
+# trained weights, datasets, logs (rebuilt by the stage scripts or downloaded from the release)
+laya_snake_weights*/
+laya_convai/
+laya_convai_snake/
+modernbert_base_control/
+onnx_build/
+web3d/model_laya421/
+*.jsonl
+*.log
+*.err
+*.db
+__pycache__/
+node_modules/
+.env
