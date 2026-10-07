@@ -1,38 +1,43 @@
-# Stage 2: Dynamic Threats — Drones, Phase Walls & 3D Web Arena
+# Stage 3: DAgger & In-Browser INT4 ONNX WebGPU
 
 ## Overview
-This stage introduces complex dynamic hazards: patrolling drones, periodic phase walls (permeable every N ticks), portals, and temporary immortality apples. It also introduces a real-time 3D web arena built with Three.js.
+In this stage, we solve the covariate shift problem (cascading errors) using **DAgger (Dataset Aggregation)**. We also test grid-size generalization and quantize the 149M model down to 71 MB for zero-server in-browser WebGPU execution.
 
 ## Key Files in this Branch
-* `build_dataset_v8_patrol_body.py` — Adds snake body segments to state JSON (fixing body blindness).
-* `build_dataset_v9.py` — Generates 60,000 steps with time-space look-ahead A* teacher dodging drones.
-* `eval_v9.py` / `eval_patrol_survival.py` — Evaluates survival against drone attacks.
-* `RULES_V9.md` — Complete formal rules of the v9 game mechanics.
-* `web3d/` — Full 3D web client (Three.js, cyberpunk shaders, real-time WebSocket).
+* `dagger_v10.py` — DAgger loop: model plays games, teacher labels states visited by the model.
+* `run_v11.py` — Retraining pipeline for aggregated DAgger dataset.
+* `export_onnx.py` / `export_onnx_web.py` — Vocabulary pruning (50,280 -> 296 tokens) + block INT4 quantization.
+* `eval_grid_size.py` — Evaluates generalization on 15x15, 20x20, and 25x25 grids.
+* `web3d/model/` — Pre-compiled client-side INT4 ONNX model (`laya_web.onnx`, ~71 MB).
 
 ## Step-by-Step Execution Guide
 
-### 1. Generate Dataset with Drone Trajectories
+### 1. Collect DAgger Data (Model Mistakes)
 ```bash
-python build_dataset_v9.py 60000
+python dagger_v10.py 40000 laya_snake_weights_v9
 ```
-Outputs `dataset_v9.jsonl` with drone flight paths and snake body coordinates.
+Runs 64 parallel environments, collects states where the model made mistakes, and labels them with teacher moves into `dataset_v10.jsonl`.
 
-### 2. Fine-tune ModernBERT (v9)
+### 2. Train Model v10
 ```bash
-python train_v7_full_context.py --dataset dataset_v9.jsonl --out laya_snake_weights_v9 --epochs 3
-```
-
-### 3. Evaluate Drone Survival
-```bash
-python eval_v9.py
+python train_v7_full_context.py --init laya_snake_weights_v9 --dataset dataset_v10.jsonl --out laya_snake_weights_v10
 ```
 
-### 4. Play in 3D Web Arena
-1. Start server: `python web_server.py`
-2. Open `web3d/index.html` in your browser.
+### 3. Export to WebGPU INT4 ONNX
+```bash
+python export_onnx_web.py laya_snake_weights_v10 web3d/model/laya_web.onnx
+```
+Prunes embedding table to 296 tokens and applies block-32 INT4 quantization (599 MB -> 71 MB).
 
-## Key Insights & Failure Modes (Lesson 2)
-* **The Body Blindness Trap:** Drones collided into the snake's body/tail 100% of the time because body coordinates were originally omitted from the JSON.
-* **Imbalance Masking:** Overall test accuracy was 91.7%, but drone evasion accuracy was only 26%. Adding full body coordinates and 4x oversampling of evasion scenarios boosted evasions to 54%.
-* **Next Stage:** Switch to `stage-3-dagger-onnx` to tackle cascading errors (covariate shift) and browser deployment.
+### 4. Test Board Generalization
+```bash
+python eval_grid_size.py
+```
+
+### 5. Play Serverless in Browser
+Open `web3d/index.html` directly in Chrome or Edge — model runs locally on WebGPU!
+
+## Key Insights & Failure Modes (Lesson 3 & 4)
+* **DAgger tripled survival:** Survival steps grew from 45 to 127 steps, preventing cascading failure loops.
+* **Vocabulary Pruning:** Game JSON only needs 296 unique tokens out of 50k in ModernBERT. Pruning saved tens of megabytes.
+* **Next Stage:** Switch to `stage-4-duel-laya421` for Human-vs-AI duels and testing Convai Laya 421M.
